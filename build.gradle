@@ -1,0 +1,27 @@
+buildscript {
+    repositories {
+        maven { url "https://mirrors.cloud.tencent.com/nexus/repository/maven-public/" }
+    }
+
+    dependencies {
+        classpath 'org.flywaydb:flyway-mysql:10.10.0'
+        classpath 'mysql:mysql-connector-java:8.0.33'
+    }
+}
+
+plugins {
+    id "org.flywaydb.flyway" version "10.10.0"
+}
+
+repositories {
+    maven { url "https://mirrors.cloud.tencent.com/nexus/repository/gradle-plugin/" }
+}
+
+flyway {
+    url = System.getenv('FLYWAY_URL')
+    user = System.getenv('FLYWAY_USER')
+    password = System.getenv('FLYWAY_PASSWORD')
+
+    locations = ['filesystem:migrations']
+    validateOnMigrate = false
+}
