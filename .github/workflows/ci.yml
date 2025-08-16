@@ -5,46 +5,21 @@ on:
     branches: [ "main" ]
 
 jobs:
-  sync-to-gitee:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Sync to Gitee
-        uses: wearerequired/git-mirror-action@master
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.GITEE_RSA_PRIVATE_KEY }}
-        with:
-          source-repo: "git@github.com:bloom-mall/mall-migration.git"
-          destination-repo: "git@gitee.com:bloom-mall/mall-migration.git"
-
-
   flyway-migration:
-    runs-on: [ flyway-runner ]
-    timeout-minutes: 6
-    needs: sync-to-gitee
-
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
         uses: actions/checkout@v5
-        with:
-          repository: bloom-mall/mall-migration
-          github-server-url: https://gitee.com/
-
-      - name: Download JDK
-        run: |
-          url="https://mirrors.tuna.tsinghua.edu.cn/Adoptium/17/jdk/x64/linux/OpenJDK17U-jdk_x64_linux_hotspot_17.0.16_8.tar.gz"
-          jdkFile="/opt/OpenJDK17U-jdk.tar.gz"
-          if [ ! -f $jdkFile ];then
-            wget -O $jdkFile $url
-          fi
 
       - name: Setup JDK
         uses: actions/setup-java@v4
         with:
           java-version: '17'
-          distribution: 'jdkfile'
-          jdkFile: /opt/OpenJDK17U-jdk.tar.gz
+          distribution: 'temurin'
 
       - name: Migrate
-        run: |
-          timeout 4m sh -c "./gradlew flywayMigrate --no-daemon --no-problems-report -Dgradle.actions.disable.results=true"
+        env:
+          FLYWAY_URL: ${{ secrets.FLYWAY_URL }}
+          FLYWAY_USER: ${{ secrets.FLYWAY_USER }}
+          FLYWAY_PASSWORD: ${{ secrets.FLYWAY_PASSWORD }}
+        run: ./gradlew flywayMigrate --no-daemon

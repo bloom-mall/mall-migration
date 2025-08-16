@@ -1,0 +1,21 @@
+CREATE TABLE `product_attribute` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '属性ID',
+  `category_id` bigint NOT NULL COMMENT '分类ID',
+  `name` varchar(64) NOT NULL COMMENT '属性名称',
+  `type` tinyint NOT NULL DEFAULT 1 COMMENT '属性类型：1-规格属性，2-销售属性，3-自定义属性',
+  `input_type` tinyint NOT NULL DEFAULT 1 COMMENT '输入类型：1-单选，2-多选，3-文本输入',
+  `input_list` text COMMENT '可选值列表，多个值用逗号分隔',
+  `is_required` tinyint NOT NULL DEFAULT 0 COMMENT '是否必填：0-否，1-是',
+  `is_filter` tinyint NOT NULL DEFAULT 0 COMMENT '是否用于筛选：0-否，1-是',
+  `sort_order` int NOT NULL DEFAULT 0 COMMENT '排序权重',
+  `status` tinyint NOT NULL DEFAULT 1 COMMENT '状态：0-禁用，1-启用',
+  `is_deleted` tinyint NOT NULL DEFAULT 0 COMMENT '是否删除：0-未删除，1-已删除',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `create_by` varchar(64) DEFAULT NULL COMMENT '创建人',
+  `update_by` varchar(64) DEFAULT NULL COMMENT '更新人',
+  PRIMARY KEY (`id`),
+  KEY `idx_category_id` (`category_id`),
+  KEY `idx_type` (`type`),
+  KEY `idx_sort_order` (`sort_order`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='商品属性表';

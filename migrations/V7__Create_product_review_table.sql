@@ -1,0 +1,23 @@
+CREATE TABLE `product_review` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '评价ID',
+  `product_id` bigint NOT NULL COMMENT '商品ID',
+  `sku_id` bigint DEFAULT NULL COMMENT 'SKU ID',
+  `user_id` bigint NOT NULL COMMENT '用户ID',
+  `order_id` bigint NOT NULL COMMENT '订单ID',
+  `rating` tinyint NOT NULL COMMENT '评分：1-5星',
+  `content` text COMMENT '评价内容',
+  `images` json DEFAULT NULL COMMENT '评价图片JSON数组',
+  `is_anonymous` tinyint NOT NULL DEFAULT 0 COMMENT '是否匿名：0-否，1-是',
+  `status` tinyint NOT NULL DEFAULT 1 COMMENT '状态：0-待审核，1-已发布，2-已隐藏',
+  `is_deleted` tinyint NOT NULL DEFAULT 0 COMMENT '是否删除：0-未删除，1-已删除',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `create_by` varchar(64) DEFAULT NULL COMMENT '创建人',
+  `update_by` varchar(64) DEFAULT NULL COMMENT '更新人',
+  PRIMARY KEY (`id`),
+  KEY `idx_product_id` (`product_id`),
+  KEY `idx_user_id` (`user_id`),
+  KEY `idx_order_id` (`order_id`),
+  KEY `idx_rating` (`rating`),
+  KEY `idx_status` (`status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='商品评价表';

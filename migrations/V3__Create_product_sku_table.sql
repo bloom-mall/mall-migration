@@ -1,0 +1,21 @@
+CREATE TABLE `product_sku` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'SKU ID',
+  `product_id` bigint NOT NULL COMMENT '商品ID',
+  `sku_code` varchar(64) NOT NULL COMMENT 'SKU编码',
+  `specifications` json DEFAULT NULL COMMENT '规格属性JSON，如：{"颜色":"红色","尺寸":"L"}',
+  `price` decimal(10,2) NOT NULL COMMENT 'SKU价格',
+  `original_price` decimal(10,2) DEFAULT NULL COMMENT '原价',
+  `stock` int NOT NULL DEFAULT 0 COMMENT '库存数量',
+  `stock_warning` int NOT NULL DEFAULT 10 COMMENT '库存预警数量',
+  `image` varchar(255) DEFAULT NULL COMMENT 'SKU图片',
+  `status` tinyint NOT NULL DEFAULT 1 COMMENT '状态：0-禁用，1-启用',
+  `is_deleted` tinyint NOT NULL DEFAULT 0 COMMENT '是否删除：0-未删除，1-已删除',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `create_by` varchar(64) DEFAULT NULL COMMENT '创建人',
+  `update_by` varchar(64) DEFAULT NULL COMMENT '更新人',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_sku_code` (`sku_code`),
+  KEY `idx_product_id` (`product_id`),
+  KEY `idx_status` (`status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='商品SKU表';
