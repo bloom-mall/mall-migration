@@ -18,8 +18,9 @@ jobs:
           distribution: 'temurin'
 
       - name: Migrate
+        timeout-minutes: 6
         env:
           FLYWAY_URL: ${{ secrets.FLYWAY_URL }}
           FLYWAY_USER: ${{ secrets.FLYWAY_USER }}
           FLYWAY_PASSWORD: ${{ secrets.FLYWAY_PASSWORD }}
-        run: ./gradlew flywayMigrate --no-daemon
+        run: timeout 6m ./gradlew flywayMigrate --no-daemon
