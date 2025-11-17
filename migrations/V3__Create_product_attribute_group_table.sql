@@ -3,7 +3,7 @@ CREATE TABLE `product_attribute_group`
     `id`          bigint      NOT NULL AUTO_INCREMENT COMMENT '分组ID',
     `product_id`  bigint      NOT NULL COMMENT '商品ID',
     `name`        varchar(20) NOT NULL COMMENT '分组名',
-    `sort`        int(3)               DEFAULT NULL COMMENT '排序',
+    `sort`        smallint    NOT NULL DEFAULT 0 COMMENT '排序',
     `create_time` datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `update_time` datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     `create_by`   varchar(64)          DEFAULT NULL COMMENT '创建人',
